@@ -77,7 +77,8 @@ def get_long_drinks(payload):
 
 
 @app.route('/drinks', methods=['POST'])
-def add_drink():
+@requires_auth('post:drinks')
+def add_drink(payload):
     body = request.get_json()
     try:
         new_recipe = json.dumps(body.get('recipe'))
