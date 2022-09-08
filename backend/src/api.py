@@ -173,6 +173,16 @@ def unprocessable(error):
 
 '''
 
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": 400,
+        "message": 'Bad Request'
+    }), 400
+
+
 '''
 @TODO implement error handler for 404
     error handler should conform to general task above
