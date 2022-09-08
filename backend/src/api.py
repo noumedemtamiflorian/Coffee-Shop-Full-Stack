@@ -104,6 +104,25 @@ def add_drink():
 '''
 
 
+@app.route('/drinks/<int:id_drink>', methods=['PATCH'])
+def update_drink(id_drink):
+    body = request.get_json()
+    drink = Drink.query.filter(Drink.id == id_drink).one_or_none()
+
+    try:
+        update_title = body.get('title')
+        update_recipe = body.get('recipe')
+        if update_title != None:
+            drink.title = update_title
+        if update_recipe != None:
+            drink.recipe = json.dumps(update_recipe)
+        drink.update()
+        return jsonify({'success': True, 'drinks': [drink.long()]}), 201
+
+    except:
+        abort(404)
+
+
 '''
 @TODO implement endpoint
     DELETE /drinks/<id>
