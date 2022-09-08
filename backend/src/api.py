@@ -53,7 +53,8 @@ def get_drinks():
 
 
 @app.route('/drinks-detail', methods=['GET'])
-def get_long_drinks():
+@requires_auth('get:drinks-detail')
+def get_long_drinks(payload):
     drinks = Drink.query.all()
     datas = []
     for drink in drinks:
