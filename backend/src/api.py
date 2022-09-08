@@ -139,7 +139,8 @@ def update_drink(payload, id_drink):
 
 
 @app.route('/drinks/<int:id_drink>', methods=['DELETE'])
-def delete_drink(id_drink):
+@requires_auth('delete:drinks')
+def delete_drink(payload, id_drink):
     drink = Drink.query.get(id_drink)
     if drink == None:
         abort(404)
