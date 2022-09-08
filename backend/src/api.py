@@ -107,7 +107,8 @@ def add_drink(payload):
 
 
 @app.route('/drinks/<int:id_drink>', methods=['PATCH'])
-def update_drink(id_drink):
+@requires_auth('patch:drinks')
+def update_drink(payload, id_drink):
     body = request.get_json()
     drink = Drink.query.filter(Drink.id == id_drink).one_or_none()
 
