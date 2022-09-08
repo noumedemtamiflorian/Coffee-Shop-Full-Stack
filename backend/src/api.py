@@ -75,6 +75,22 @@ def get_long_drinks():
 '''
 
 
+@app.route('/drinks', methods=['POST'])
+def add_drink():
+    body = request.get_json()
+    try:
+        new_recipe = json.dumps(body.get('recipe'))
+        new_title = body.get('title')
+        if new_title == None or new_recipe == 'null':
+            abort(422)
+        else:
+            drink = Drink(recipe=new_recipe, title=new_title)
+            drink.insert()
+            return jsonify({'success': True, 'drinks': [drink.long()]}), 201
+    except:
+        abort(422)
+
+
 '''
 @TODO implement endpoint
     PATCH /drinks/<id>
