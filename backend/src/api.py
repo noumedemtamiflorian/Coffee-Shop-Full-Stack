@@ -183,6 +183,15 @@ def bad_request(error):
     }), 400
 
 
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": 'Unathorized'
+    }), 401
+
+
 '''
 @TODO implement error handler for 404
     error handler should conform to general task above
