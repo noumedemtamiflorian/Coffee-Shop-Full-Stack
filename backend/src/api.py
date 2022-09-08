@@ -201,6 +201,15 @@ def method_not_allowed(error):
     }), 405
 
 
+@app.errorhandler(500)
+def internal_server_error(error):
+    return jsonify({
+        "success": False,
+        "error": 500,
+        "message": 'Internal Server Error'
+    }), 500
+
+
 '''
 @TODO implement error handler for 404
     error handler should conform to general task above
