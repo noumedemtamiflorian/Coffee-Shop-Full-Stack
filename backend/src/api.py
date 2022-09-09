@@ -53,7 +53,8 @@ def get_drinks():
 
 
 @app.route('/drinks-detail', methods=['GET'])
-def get_long_drinks():
+@requires_auth('get:drinks-detail')
+def get_long_drinks(payload):
     drinks = Drink.query.all()
     datas = []
     for drink in drinks:
@@ -76,7 +77,8 @@ def get_long_drinks():
 
 
 @app.route('/drinks', methods=['POST'])
-def add_drink():
+@requires_auth('post:drinks')
+def add_drink(payload):
     body = request.get_json()
     try:
         new_recipe = json.dumps(body.get('recipe'))
@@ -105,7 +107,8 @@ def add_drink():
 
 
 @app.route('/drinks/<int:id_drink>', methods=['PATCH'])
-def update_drink(id_drink):
+@requires_auth('patch:drinks')
+def update_drink(payload, id_drink):
     body = request.get_json()
     drink = Drink.query.filter(Drink.id == id_drink).one_or_none()
 
@@ -136,7 +139,8 @@ def update_drink(id_drink):
 
 
 @app.route('/drinks/<int:id_drink>', methods=['DELETE'])
-def delete_drink(id_drink):
+@requires_auth('delete:drinks')
+def delete_drink(payload, id_drink):
     drink = Drink.query.get(id_drink)
     if drink == None:
         abort(404)
@@ -229,3 +233,12 @@ def unprocessable(error):
 @TODO implement error handler for AuthError
     error handler should conform to general task above
 '''
+
+
+@app.errorhandler(AuthError)
+def auth_error(error):
+    return jsonify({
+        "success": False,
+        "error": error.status_code,
+        "message": error.error['description']
+    }), error.status_code
