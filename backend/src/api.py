@@ -117,7 +117,7 @@ def update_drink(id_drink):
         if update_recipe != None:
             drink.recipe = json.dumps(update_recipe)
         drink.update()
-        return jsonify({'success': True, 'drinks': [drink.long()]}), 201
+        return jsonify({'success': True, 'drinks': [drink.long()]}), 200
 
     except:
         abort(404)
