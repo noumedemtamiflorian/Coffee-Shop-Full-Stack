@@ -86,7 +86,7 @@ def add_drink():
         else:
             drink = Drink(recipe=new_recipe, title=new_title)
             drink.insert()
-            return jsonify({'success': True, 'drinks': [drink.long()]}), 201
+            return jsonify({'success': True, 'drinks': [drink.long()]}), 200
     except:
         abort(422)
 
